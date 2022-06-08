@@ -1,21 +1,14 @@
 import React from 'react';
-import './App.css';
-import styled from 'styled-components';
-
-const Father = styled.div`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-`;
-
+// import styled from 'styled-components';
+import { GlobalStyle } from './globalStyle';
+import Router from './Router';
 
 function App() {
   return (
-    <Father>
-      hello
-    </Father>
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
   );
 }
 
