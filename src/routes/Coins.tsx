@@ -1,45 +1,10 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { fetchCoins } from "../utils/fetcher";
+import { CoinList, Container, Header, Title, Coin, Img, Loader } from './styles';
 
-const Container = styled.div`
-  padding: 0px 20px;
-`;
-
-const Header = styled.header`
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const CoinList = styled.ul`
-
-`;
-
-const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
-  border-radius: 15px;
-  margin-bottom: 10px;
-  a{
-    padding: 15px;
-    display: block;
-  }
-  &:hover{
-    a{
-      color: ${(props) => props.theme.accentColor};
-    }
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 40px;
-  color: ${(props) => props.theme.accentColor};
-`;
-
-interface CoinInterface {
+interface ICoin {
   id: string,
   name: string,
   symbol: string,
@@ -50,27 +15,43 @@ interface CoinInterface {
 }
 
 const Coins = () => {
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      setCoins(json.slice(0, 100));
-    })();
-  }, []);
+  // const [coins, setCoins] = useState<ICoin[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await fetch("https://api.coinpaprika.com/v1/coins");
+  //     const json = await response.json();
+  //     setCoins(json.slice(0, 10));
+  //     setLoading(false);
+  //   })();
+  // }, []);
 
+  // useQuery("쿼리 key", fetcher)
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
       <Header>
-        <Title>Coin</Title>
+        <Title>CoinGyeom</Title>
       </Header>
-      <CoinList>
-        {coins.map((coin) => (
-            <Coin key={coin.id}>
-              <Link to ={`${coin.name}`}>{coin.name}</Link>
-            </Coin>
-        ))}
-      </CoinList>
+      {isLoading ? 
+      (<Loader>Loading...</Loader>):(
+        <CoinList>
+          {data?.slice(0, 10).map((coin) => (
+              <Coin key={coin.id}>
+                {/* 라우터 6버전 Link to/state */}
+                <Link 
+                  to ={`${coin.id}`} 
+                  state={{
+                          name: coin.name,
+                        }}
+                >
+                  <Img src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} alt='coinImg' />
+                  {coin.name}
+                </Link>
+              </Coin>
+          ))}
+        </CoinList>
+      )}
     </Container>
   );
 }
