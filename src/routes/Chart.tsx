@@ -25,13 +25,13 @@ const Chart = () => {
   // 하위 컴포넌트에서 useOutletContext() 훅을 이용해서 props를 받아올 수 있다.
   const {coinId} = useOutletContext() as IChartProps;
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () => fetchCoinHistory(coinId));
-
+ 
   return (
     <OverView>
       <OverViewItem>
         <div>{isLoading ? "Loading Chart..." :
           <ApexChart 
-            type="line" 
+            type="bar" 
             series={[
               {
                 name: "hello",
