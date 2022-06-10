@@ -1,4 +1,5 @@
 // import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { Outlet, useLocation, useMatch, useParams } from "react-router-dom";
@@ -84,8 +85,11 @@ const Coin = () => {
   const { isLoading: infoLoading, data : infoData } = useQuery<IInfoData>(
     ["info", coinId], () => fetchCoinInfo(coinId)
   );
-  const { isLoading: tickersLoading, data : tickersData} = useQuery<IPriceData>(
+  const { isLoading: tickersLoading, data : tickersData } = useQuery<IPriceData>(
     ["tickers", coinId], () => fetchCoinTickers(coinId)
+    // ,{
+    //   refetchInterval: 10000,
+    // }
   );
 
   const loading = infoLoading || tickersLoading;
@@ -111,6 +115,9 @@ const Coin = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
+      </Helmet>
       <Header>
           <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
       </Header>
@@ -128,8 +135,8 @@ const Coin = () => {
                 <span>{infoData?.symbol}</span>
               </OverViewItem>
               <OverViewItem>
-                <span>Open Source</span>
-                <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                <span>Price</span>
+                <span>{tickersData?.quotes.USD.price.toFixed(2)}</span>
               </OverViewItem>
             </OverView>
             <Description>{infoData?.description}</Description>
@@ -151,7 +158,8 @@ const Coin = () => {
                 <Link to={`/${coinId}/price`}>Price</Link>
               </TabDesign>
             </Tabs>
-            <Outlet />
+            {/* 상위 컴포넌트에서 Outlet 컴포넌트에 context를 통한 prop 전달 */}
+            <Outlet context={{coinId: coinId}}/>
           </>
         )}
     </Container>

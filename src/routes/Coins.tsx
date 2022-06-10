@@ -1,4 +1,5 @@
 // import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { fetchCoins } from "../utils/fetcher";
@@ -30,6 +31,9 @@ const Coins = () => {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
+      {/* <Helmet>
+        <title>CoinGyeom</title>
+      </Helmet> */}
       <Header>
         <Title>CoinGyeom</Title>
       </Header>
