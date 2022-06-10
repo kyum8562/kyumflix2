@@ -30,6 +30,7 @@ const Coins = () => {
   // useQuery("쿼리 key", fetcher)
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
+    <div>
     <Container>
       {/* <Helmet>
         <title>CoinGyeom</title>
@@ -57,6 +58,7 @@ const Coins = () => {
         </CoinList>
       )}
     </Container>
+    </div>
   );
 }
 

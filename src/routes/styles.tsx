@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 0px 20px;
+  max-width: 480px;
+  margin: 0 auto;
 `;
 
 export const Header = styled.header`
@@ -10,7 +12,6 @@ export const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 export const CoinList = styled.ul`
@@ -64,6 +65,7 @@ export const OverViewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 
   span:first-child{
     font-size: 10px;
@@ -93,6 +95,7 @@ export const Tab = styled.span`
   padding: 7px 0px;
   border-radius: 10px;
   a{
+    padding: 7px 0px;
     display: block;
   }
 `;

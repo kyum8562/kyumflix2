@@ -13,6 +13,19 @@ const TabDesign = styled(Tab)<{isActive: boolean}>`
     props.isActive ? props.theme.accentColor : props.theme.textColor};
 `;
 
+const HeaderTab = styled(Tab)`
+  width: 50px;
+  height: 30px;
+  line-height: 0px;
+  a:hover{
+    color: ${(props) => props.theme.accentColor };
+  }
+`;
+
+const Header2 = styled(Header)`
+  justify-content: space-between;
+`;
+
 interface RouteState{
  state:
       { 
@@ -118,9 +131,15 @@ const Coin = () => {
       <Helmet>
         <title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</title>
       </Helmet>
-      <Header>
+      <Header2>
+          <HeaderTab>
+            <Link to={`/`}>Back</Link>
+          </HeaderTab>
           <Title>{state?.name ? state.name : loading ? "Loading..." : infoData?.name}</Title>
-      </Header>
+          <HeaderTab>
+            <Link to={`/`}>Home</Link>
+          </HeaderTab>
+      </Header2>
       {loading ? 
         (<Loader>loading...</Loader>) : 
         (
